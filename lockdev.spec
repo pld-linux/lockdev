@@ -1,9 +1,9 @@
 # TODO: something with directory (/var/lock is 1771 root.uucp and belongs to FHS!)
-#       either move it to subdir (but then they would be used only by this lib)
+#	either move it to subdir (but then they would be used only by this lib)
 #	or change lockdev group to uucp
 #	or change /var/lock gid to lock
 #
-%include        /usr/lib/rpm/macros.perl
+%include	/usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
@@ -17,7 +17,7 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig
 Patch0:		%{name}-Makefile.patch
 #Requires(pre):	/usr/bin/getgid
 #Requires(pre):	/usr/sbin/groupadd
-Requires(postun):	/sbin/ldconfig
+Requires(post,postun):	/sbin/ldconfig
 #Requires(postun):	/usr/sbin/groupdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
