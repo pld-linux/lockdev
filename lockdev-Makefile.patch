@@ -44,3 +44,16 @@
  soname	= ${libname}.so.${MVER}
  
  # overwritten by caller (e.g.: debian/rules)
+--- lockdev-1.0.1/Makefile~	Sat Dec  6 10:12:20 2003
++++ lockdev-1.0.1/Makefile	Sat Dec  6 10:16:47 2003
+@@ -11,8 +11,8 @@
+ MVER	= ${shell expr `pwd` : '.*-\([0-9]*\).[0-9]*'}
+ 
+ static	= ${libname}.a
+-shared	= ${libname}.so.${MVER}
+-soname	= ${libname}.so.${MVER}
++shared	= ${libname}.so.${VER}
++soname	= ${libname}.so.${VER}
+ 
+ # overwritten by caller (e.g.: debian/rules)
+ basedir	= /usr/local
