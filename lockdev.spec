@@ -17,7 +17,7 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig
 Patch0:		%{name}-Makefile.patch
 #Requires(pre):	/usr/bin/getgid
 #Requires(pre):	/usr/sbin/groupadd
-Requires(post):	/sbin/ldconfig
+#Requires(postun):	/sbin/ldconfig
 #Requires(postun):	/usr/sbin/groupdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -141,9 +141,9 @@ rm -rf $RPM_BUILD_ROOT
 #fi
 
 %post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+%{nil}
 
-%postun
-/sbin/ldconfig
 #if [ "$1" = "0" ]; then
 #	/usr/sbin/groupdel lock 2>/dev/null
 #fi
