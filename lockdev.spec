@@ -25,7 +25,7 @@ na urz±dzenia przy u¿yciu metod zarówno FSSTND jak i SVr4.
 %package devel
 Summary:	The header files for the lockdev library
 Summary(pl):	Pliki nag³ówkowe biblioteki lockdev
-Group:          Development/Libraries
+Group:		Development/Libraries
 Requires:	lockdev = %{version}-%{release}
 
 %description devel
@@ -41,7 +41,7 @@ SVr4. Ten pakiet zawiera pliki nag³ówkowe.
 %package static
 Summary:	Static lockdev library
 Summary(pl):	Biblioteka statyczna lockdev
-Group:          Development/Libraries
+Group:		Development/Libraries
 Requires:	lockdev-devel = %{version}-%{release}
 
 %description static
