@@ -5,12 +5,13 @@ Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
 Version:	1.0.1
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Development/Libraries
 # Source0-md5:	3deda988583172b673f984b0d1cdeb0d
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
-Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-5.1.diff.gz
+# Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-5.1.diff.gz
+Patch0:		%{name}-Makefile.patch
 Requires(pre):	/usr/sbin/groupadd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,6 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 	mandir=${RPM_BUILD_ROOT}%{_mandir}
 
 install -d $RPM_BUILD_ROOT/var/lock
+ln -sf lib%{name}.so.* ${RPM_BUILD_ROOT}%{_libdir}/lib%{name}.so
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -81,11 +83,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 #%attr(2755,root,lock)	%{_sbindir}/lockdev
 #%dir %attr(775,root,lock) /var/lock
-%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/*.so.*
 
 %files devel
 %defattr(644,root,root,755)
-# %attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/*.so
 %{_mandir}/man*/*
 %{_includedir}/*
 
