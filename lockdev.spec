@@ -1,4 +1,4 @@
-# TODO: proper group (gid 54 is rsync in PLD),
+# TODO: proper group (gid 54 is rsync in PLD), standardize groupadd
 #       something with directory (/var/lock is 1771 root.uucp and belongs to FHS!)
 #
 Summary:	A library for locking devices
@@ -11,6 +11,7 @@ Group:		Development/Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	3deda988583172b673f984b0d1cdeb0d
 Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-4.1.diff.gz
+Requires(pre):	/usr/sbin/groupadd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -58,19 +59,20 @@ Biblioteka statyczna lockdev.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
-    sbindir=${RPM_BUILD_ROOT}%{_sbindir} \
-    libdir=${RPM_BUILD_ROOT}%{_libdir} \
-    incdir=${RPM_BUILD_ROOT}%{_includedir} \
-    mandir=${RPM_BUILD_ROOT}%{_mandir}
+	sbindir=${RPM_BUILD_ROOT}%{_sbindir} \
+	libdir=${RPM_BUILD_ROOT}%{_libdir} \
+	incdir=${RPM_BUILD_ROOT}%{_includedir} \
+	mandir=${RPM_BUILD_ROOT}%{_mandir}
 
 install -d $RPM_BUILD_ROOT/var/lock
 
 %clean
-rm -fr $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %pre
-groupadd -g 54 -r -f lock
+/usr/sbin/groupadd -g 54 -r -f lock
 
 %post	-p /sbin/ldconfig
 %postun -p /sbin/ldconfig
