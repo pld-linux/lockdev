@@ -1,0 +1,46 @@
+--- lockdev-1.0.1.orig/Makefile
++++ lockdev-1.0.1/Makefile
+@@ -4,6 +4,7 @@
+ pkgname = lockdev
+ 
+ objs	= src/lockdev.o
++shobjs	= src/lockdev.z
+ 
+ 
+ VER	= $(shell expr `pwd` : '.*-\([0-9.]*\)')
+@@ -32,9 +33,12 @@
+ static ${static}:       ${objs}
+ 	$(AR) $(ARFLAGS) ${static} $^
+ 
+-shared ${shared}:	${objs}
++shared ${shared}:	${shobjs}
+ 	${CC} ${LCFLAGS} -shared -Wl,-soname,${soname} $^ -lc -o ${shared}
+ 
++src/lockdev.z: src/lockdev.c
++	${CC} ${CFLAGS} -c -fPIC -o $@ $?
++
+ 
+ perl-lib:	static
+ 	cd LockDev && perl Makefile.PL INSTALLDIRS=vendor
+--- lockdev-1.0.1.orig/LockDev/Makefile.PL
++++ lockdev-1.0.1/LockDev/Makefile.PL
+@@ -7,7 +7,7 @@
+          'LIBS'	=> [''],
+        'DEFINE'	=> '',
+           'INC'	=> '-I../src',
+-     'MYEXTLIB'	=> '../liblockdev.a',
++     'MYEXTLIB'	=> '../src/lockdev.z',
+ );
+ 
+ sub MY::postamble {
+--- lockdev-1.0.1/Makefile~	2003-11-20 05:42:17.000000000 +0100
++++ lockdev-1.0.1/Makefile	2003-11-20 05:45:25.000000000 +0100
+@@ -11,7 +11,7 @@
+ MVER	= ${shell expr `pwd` : '.*-\([0-9]*\).[0-9]*'}
+ 
+ static	= ${libname}.a
+-shared	= ${libname}.${VER}.so
++shared	= ${libname}.so.${MVER}
+ soname	= ${libname}.so.${MVER}
+ 
+ # overwritten by caller (e.g.: debian/rules)
