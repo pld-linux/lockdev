@@ -5,7 +5,7 @@ Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
 Version:	1.0.1
-Release:	3
+Release:	4
 License:	LGPL
 Group:		Development/Libraries
 # Source0-md5:	3deda988583172b673f984b0d1cdeb0d
