@@ -3,6 +3,7 @@
 #	or change lockdev group to uucp
 #	or change /var/lock gid to lock
 #
+%include        /usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
