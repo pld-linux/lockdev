@@ -17,7 +17,7 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig
 Patch0:		%{name}-Makefile.patch
 #Requires(pre):	/usr/bin/getgid
 #Requires(pre):	/usr/sbin/groupadd
-Requires(post,postun):	/sbin/ldconfig
+Requires(post):	/sbin/ldconfig
 #Requires(postun):	/usr/sbin/groupdel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
