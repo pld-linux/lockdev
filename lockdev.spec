@@ -9,6 +9,7 @@ Release:	0.1
 License:	LGPL
 Group:		Development/Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
+# Source0-md5:	3deda988583172b673f984b0d1cdeb0d
 Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-4.1.diff.gz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
