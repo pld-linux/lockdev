@@ -1,14 +1,11 @@
 Summary:	A library for locking devices.
 Name:		lockdev
-Version:	1.0.0
-Release:	23
+Version:	1.0.1
+Release:	1
 License:	LGPL
 Group:		Development/Libraries
-Source0:	ftp://ftp.debian.org/debian/dists/woody/main/source/libs/%{name}_%{version}.tar.gz
-Patch0:		%{name}-1.0.0-rh.patch
-Patch1:		%{name}-1.0.0-shared.patch
-Patch2:		%{name}-1.0.0-signal.patch
-Patch3:		%{name}-1.0.0-cli.patch
+Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
+Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-4.1.diff.gz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -17,8 +14,7 @@ using both FSSTND and SVr4 methods.
 
 %package devel
 Summary:	The header files and a static library for the lockdev library.
-Group:		System Environment/Libraries
-######		Unknown group!
+Group:          Development/Libraries
 Requires:	lockdev = %{version}-%{release}
 
 %description devel
@@ -28,10 +24,7 @@ package contains the development headers and a static library.
 
 %prep
 %setup -q
-%patch0 -p1 -b .redhat
-%patch1 -p1 -b .shared
-%patch2 -p1 -b .signal
-%patch3 -p1 -b .jbj
+%patch0 -p1
 
 %build
 %{__make} "CFLAGS=%{rpmcflags} -fPIC"
@@ -59,7 +52,7 @@ rm -fr $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(2755,root,lock)	%{_sbindir}/lockdev
+#%attr(2755,root,lock)	%{_sbindir}/lockdev
 %dir %attr(775,root,lock) /var/lock
 %{_libdir}/*.so.*
 
