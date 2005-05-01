@@ -19,6 +19,7 @@ Patch0:		%{name}-Makefile.patch
 #Requires(pre):	/usr/sbin/groupadd
 #Requires(postun):	/sbin/ldconfig
 #Requires(postun):	/usr/sbin/groupdel
+#BuildRequires:	rpmbuild(macros) >= 1.202
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -130,22 +131,17 @@ ln -sf liblockdev.so.*.*.* $RPM_BUILD_ROOT%{_libdir}/liblockdev.so
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-#%pre
-#if [ -n "`/usr/bin/getgid lock`" ]; then
-#	if [ "`getgid lock`" != "34" ]; then
-#		echo "Error: group lock doesn't have gid=34. Correct this before installing lockdev." 1>&2
-#		exit 1
-#	fi
-#else
-#	/usr/sbin/groupadd -g 34 -r -f lock
-#fi
+%if 0
+%pre
+%groupadd -g 34 -r -f lock
+%endif
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 %{nil}
 
 #if [ "$1" = "0" ]; then
-#	/usr/sbin/groupdel lock 2>/dev/null
+#	%userremove lock
 #fi
 
 %files
