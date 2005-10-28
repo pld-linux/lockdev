@@ -19,9 +19,9 @@
  
  
  perl-lib:	static
---- lockdev-1.0.1/LockDev/Makefile.PL.orig	Sun Oct 24 20:10:00 1999
-+++ lockdev-1.0.1/LockDev/Makefile.PL	Thu Feb  5 14:17:56 2004
-@@ -4,16 +4,7 @@
+--- lockdev-1.0.2/LockDev/Makefile.PL.orig	2005-10-03 19:49:17.000000000 +0200
++++ lockdev-1.0.2/LockDev/Makefile.PL	2005-10-28 21:44:25.065852792 +0200
+@@ -4,16 +4,8 @@
  WriteMakefile(
           'NAME'	=> 'LockDev',
   'VERSION_FROM'	=> 'LockDev.pm', # finds $VERSION
@@ -29,9 +29,9 @@
 +         'LIBS'	=> ['-L.. -llockdev'],
         'DEFINE'	=> '',
            'INC'	=> '-I../src',
--     'MYEXTLIB'	=> '../liblockdev.a',
+-     'MYEXTLIB'	=> '../src/lockdev.z',
  );
--
+ 
 -sub MY::postamble {
 -'
 -$(MYEXTLIB): ../src/lockdev.c ../src/lockdev.h
