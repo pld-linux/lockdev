@@ -8,7 +8,7 @@ Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
 Version:	1.0.2
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
@@ -138,11 +138,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
-%{nil}
 
-#if [ "$1" = "0" ]; then
-#	%userremove lock
-#fi
+%if 0
+if [ "$1" = "0" ]; then
+	%userremove lock
+fi
+%endif
 
 %files
 %defattr(644,root,root,755)
