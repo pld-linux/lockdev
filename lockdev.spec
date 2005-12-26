@@ -1,25 +1,15 @@
-# TODO: something with directory (/var/lock is 1771 root.uucp and belongs to FHS!)
-#	either move it to subdir (but then they would be used only by this lib)
-#	or change lockdev group to uucp
-#	or change /var/lock gid to lock
-#
 %include	/usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
 Summary(pl):	Biblioteka do blokowania urz±dzeñ
 Name:		lockdev
 Version:	1.0.2
-Release:	2
+Release:	3
 License:	LGPL
 Group:		Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	c2a9e010971ccbd642dd8e842b3a1c30
-# Patch0:		ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}-5.1.diff.gz
 Patch0:		%{name}-Makefile.patch
-#Requires(pre):	/usr/bin/getgid
-#Requires(pre):	/usr/sbin/groupadd
-#Requires(postun):	/sbin/ldconfig
-#Requires(postun):	/usr/sbin/groupdel
-#BuildRequires:	rpmbuild(macros) >= 1.202
+Patch1:		%{name}-baudboy.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -58,6 +48,30 @@ Static lockdev library.
 %description static -l pl
 Biblioteka statyczna lockdev.
 
+%package baudboy
+Summary:	lockdev utility
+Summary(pl):	Narzêdzie lockdev
+Group:		Applications/System
+Requires:	%{name} = %{version}-%{release}
+
+%description baudboy
+This package contains sgid lockdev utility used by Baudboy API.
+
+%description baudboy -l pl
+Ten pakiet zawiera narzêdzie lockdev z ustawionym bitem sgid u¿ywane
+przez API Baudboy.
+
+%package baudboy-devel
+Summary:	Baudboy interface to lockdev utility
+Summary(pl):	Interfejs Baudboy do narzêdzia lockdev
+Group:		Development/Libraries
+
+%description baudboy-devel
+Baudboy interface to lockdev utility.
+
+%description baudboy-devel -l pl
+Interfejs Baudboy do narzêdzia lockdev.
+
 %package -n perl-LockDev
 Summary:	LockDev - Perl extension to manage device lockfiles
 Summary(pl):	LockDev - rozszerzenie Perla do zarz±dzania plikami blokuj±cymi dla urz±dzeñ
@@ -93,6 +107,7 @@ a ich zawarto¶æ to identyfikator (PID) procesu posiadaj±cego blokadê.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} static \
@@ -100,7 +115,7 @@ a ich zawarto¶æ to identyfikator (PID) procesu posiadaj±cego blokadê.
 	CFLAGS="%{rpmcflags} -Wall"
 
 rm -f src/*.o
-%{__make} shared \
+%{__make} shared lockdev \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -fPIC -Wall -D_REENTRANT" \
 	LCFLAGS="%{rpmldflags}"
@@ -122,44 +137,37 @@ rm -rf $RPM_BUILD_ROOT
 	incdir=$RPM_BUILD_ROOT%{_includedir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
-install -d $RPM_BUILD_ROOT/var/lock
-ln -sf liblockdev.so.*.*.* $RPM_BUILD_ROOT%{_libdir}/liblockdev.so
-
 %{__make} install -C LockDev \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%if 0
-%pre
-%groupadd -g 34 -r -f lock
-%endif
-
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%if 0
-if [ "$1" = "0" ]; then
-	%userremove lock
-fi
-%endif
-
 %files
 %defattr(644,root,root,755)
-#%attr(2755,root,lock)	%{_sbindir}/lockdev
-#%dir %attr(775,root,lock) /var/lock
-%attr(755,root,root) %{_libdir}/*.so.*.*.*
+%attr(755,root,root) %{_libdir}/liblockdev.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/*.so
+%attr(755,root,root) %{_libdir}/liblockdev.so
 %{_mandir}/man3/lockdev.3*
-%{_includedir}/*
+%{_includedir}/lockdev.h
+%{_includedir}/ttylock.h
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/*.a
+%{_libdir}/liblockdev.a
+
+%files baudboy
+%defattr(644,root,root,755)
+%attr(2755,root,uucp) %{_sbindir}/lockdev
+
+%files baudboy-devel
+%defattr(644,root,root,755)
+%{_includedir}/baudboy.h
 
 %files -n perl-LockDev
 %defattr(644,root,root,755)
