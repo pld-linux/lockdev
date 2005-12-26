@@ -1,24 +1,30 @@
---- lockdev-1.0.1.orig/Makefile
-+++ lockdev-1.0.1/Makefile
-@@ -11,8 +11,8 @@
+--- lockdev-1.0.2/Makefile.orig	2005-10-03 20:51:53.000000000 +0200
++++ lockdev-1.0.2/Makefile	2005-12-26 17:53:27.430973200 +0100
+@@ -11,7 +11,7 @@
  MVER	= ${shell expr `pwd` : '.*-\([0-9]*\).[0-9]*'}
  
  static	= ${libname}.a
 -shared	= ${libname}.${VER}.so
--soname	= ${libname}.so.${MVER}
 +shared	= ${libname}.so.${VER}
-+soname	= ${libname}.so.${VER}
+ soname	= ${libname}.so.${MVER}
  
  # overwritten by caller (e.g.: debian/rules)
- basedir	= /usr/local
-@@ -32,6 +33,7 @@
+@@ -35,6 +35,7 @@
  
- shared ${shared}:	${objs}
+ shared ${shared}:	${shobjs}
  	${CC} ${LCFLAGS} -shared -Wl,-soname,${soname} $^ -lc -o ${shared}
 +	ln -s ${shared} liblockdev.so
  
+ src/lockdev.z: src/lockdev.c
+ 	${CC} ${CFLAGS} -c -fPIC -o $@ $?
+@@ -72,6 +73,7 @@
+ install_run:	${shared}
+ 	install -m755 -d	${libdir}
+ 	install -m644 ${shared}	${libdir}
++	ln -s ${shared} ${libdir}/liblockdev.so
  
- perl-lib:	static
+ .PHONY: clean distclean perl-clean mostyclean 
+ perl-clean:	clean
 --- lockdev-1.0.2/LockDev/Makefile.PL.orig	2005-10-03 19:49:17.000000000 +0200
 +++ lockdev-1.0.2/LockDev/Makefile.PL	2005-10-28 21:44:25.065852792 +0200
 @@ -4,16 +4,8 @@
