@@ -5,12 +5,14 @@ lockdev-1.0.0-signal.patch
 lockdev-1.0.1-pidexists.patch
 lockdev-1.0.1-fcntl.patch
 
-diff -uNr lockdev-1.0.0.orig/Makefile lockdev-1.0.0/Makefile
---- lockdev-1.0.0.orig/Makefile	Wed Dec  1 05:56:22 1999
-+++ lockdev-1.0.0/Makefile	Fri Oct 26 11:40:18 2001
+updated for lockdev-1.0.2
+changed to use shared liblockdev
+
+--- lockdev-1.0.2/Makefile.orig	2005-12-26 18:04:24.807036848 +0100
++++ lockdev-1.0.2/Makefile	2005-12-26 18:06:29.030152064 +0100
 @@ -6,6 +6,8 @@
- 
  objs	= src/lockdev.o
+ shobjs	= src/lockdev.z
  
 +lockdev	= src/sample.c
 +
@@ -39,19 +41,19 @@ diff -uNr lockdev-1.0.0.orig/Makefile lockdev-1.0.0/Makefile
  
  static ${static}:       ${objs}
  	$(AR) $(ARFLAGS) ${static} $^
-@@ -36,6 +39,11 @@
- shared ${shared}:	${objs}
- 	${CC} ${LCFLAGS} -shared -Wl,-soname,${soname} $^ -lc -o ${shared}
+@@ -40,6 +43,11 @@
+ src/lockdev.z: src/lockdev.c
+ 	${CC} ${CFLAGS} -c -fPIC -o $@ $?
  
 +lockdev.o: ${lockdev}
 +	${CC} ${CFLAGS} -I./src -o $@ -c $^
 +
-+lockdev: lockdev.o ${static}
-+	${CC} -o $@ $^
++lockdev: lockdev.o ${shared}
++	${CC} -o $@ lockdev.o -L. -llockdev
  
  perl-lib:	static
- 	cd LockDev && perl Makefile.PL INSTALLDIRS=perl
-@@ -51,6 +59,7 @@
+ 	cd LockDev && perl Makefile.PL INSTALLDIRS=vendor
+@@ -55,6 +63,7 @@
  	install -m755 -d	${incdir}
  	install -m644 src/lockdev.h	${incdir}
  	install -m644 src/ttylock.h	${incdir}
@@ -59,12 +61,10 @@ diff -uNr lockdev-1.0.0.orig/Makefile lockdev-1.0.0/Makefile
  
  install_debug:	${static} ${shared}
  	install -m755 -d	${libdir}/debug
-@@ -68,7 +77,9 @@
- 
- install_run:	${shared}
+@@ -74,6 +83,8 @@
  	install -m755 -d	${libdir}
--	install -m644 ${shared}	${libdir}
-+	install -m755 ${shared}	${libdir}
+ 	install -m644 ${shared}	${libdir}
+ 	ln -s ${shared} ${libdir}/liblockdev.so
 +	install -m755 -d	${sbindir}
 +	install -m755 lockdev	${sbindir}
  
@@ -347,65 +347,54 @@ diff -uNr lockdev-1.0.0.orig/src/lockdev.c lockdev-1.0.0/src/lockdev.c
  	}
  
  	/* first remove the FSSTND-1.2 lock, get the pid of the
-diff -uNr lockdev-1.0.0.orig/src/lockdev.h lockdev-1.0.0/src/lockdev.h
---- lockdev-1.0.0.orig/src/lockdev.h	Wed Dec  1 06:39:42 1999
-+++ lockdev-1.0.0/src/lockdev.h	Fri Oct 26 11:40:18 2001
-@@ -53,6 +53,7 @@
+--- lockdev-1.0.2/src/lockdev.h.orig	2005-10-03 19:44:33.000000000 +0200
++++ lockdev-1.0.2/src/lockdev.h	2005-12-26 18:08:19.692328856 +0100
+@@ -43,12 +43,16 @@
  #endif
  
  #include <sys/types.h>
 +#include <errno.h>
  
- 
  /* API of the library */
-@@ -60,6 +61,9 @@
- void	liblockdev_incr_debug __P(());
- void	liblockdev_reset_debug __P(());
+ 
+ void liblockdev_incr_debug (void);
+ void liblockdev_reset_debug (void);
  
 +pid_t	dev_getpid __P(( void ));
 +pid_t	dev_setpid __P(( pid_t pid ));
 +
- pid_t	dev_testlock __P(( const char * devname));
+ pid_t dev_testlock (const char *devname);
  
- pid_t	dev_lock __P(( const char * devname));
-diff -uNr lockdev-1.0.0.orig/src/sample.c lockdev-1.0.0/src/sample.c
---- lockdev-1.0.0.orig/src/sample.c	Wed Dec  1 06:50:09 1999
-+++ lockdev-1.0.0/src/sample.c	Fri Oct 26 11:40:18 2001
-@@ -3,27 +3,26 @@
- 
+ pid_t dev_lock (const char *devname);
+--- lockdev-1.0.2/src/sample.c.orig	2005-12-26 18:04:24.837032288 +0100
++++ lockdev-1.0.2/src/sample.c	2005-12-26 18:09:48.679800704 +0100
+@@ -5,7 +5,7 @@
  void
- usage() {
+ usage (void)
+ {
 -	fprintf( stderr, "Usage: sample [-lurd] <device>\n" );
--	exit( -1 );
-+	fprintf(stderr, "Usage: %s [-lud] <device>\n", "lockdev");
-+	exit(-1);
++	fprintf( stderr, "Usage: %s [-lud] <device>\n", "lockdev" );
+ 	exit( -1 );
  }
  
- int debug;
- 
- 
- int
--main( int argc, char *argv[] )
-+main(int argc, char *argv[])
+@@ -15,7 +15,7 @@
+       char *argv[])
  {
  	int i, chld;
 -	char *p, *dev, ch;
 +	char *p = NULL, *dev = NULL, ch;
  
  	ch = '\0';
--	for( i = argc - 1; i > 0; i-- ) {
-+	for (i = argc - 1; i > 0; i--) {
- 		p = argv[i];
--		if( *p == '-' ) {
--			switch( *++p ) {
-+		if (*p == '-') {
-+			switch(*++p) {
+ 	for( i = argc - 1; i > 0; i-- ) {
+@@ -23,8 +23,7 @@
+ 		if( *p == '-' ) {
+ 			switch( *++p ) {
  			case 'l': 
 -			case 'u': 
 -			case 'r': ch = *p; break;
-+			case 'u': ch = *p; break;
++			case 'u': ch = *p; break; 
  			case 'd':
- 				debug = atoi(++p);
+ 				liblockdev_incr_debug();
  				break;
 @@ -32,31 +31,52 @@
  		}
@@ -531,10 +520,9 @@ diff -uNr lockdev-1.0.0.orig/src/sample.c lockdev-1.0.0/src/sample.c
  }
  
  static inline int ttywait(const char * devname)
-diff -Nru lockdev-1.0.1.orig/src/lockdev.c lockdev-1.0.1/src/lockdev.c
---- lockdev-1.0.1.orig/src/lockdev.c	2004-07-17 19:17:48.000000000 +0300
-+++ lockdev-1.0.1/src/lockdev.c	2004-07-17 19:19:07.000000000 +0300
-@@ -147,7 +147,7 @@
+--- lockdev-1.0.2/src/lockdev.c.orig	2005-12-26 18:04:24.831033200 +0100
++++ lockdev-1.0.2/src/lockdev.c	2005-12-26 18:08:00.380264736 +0100
+@@ -148,7 +148,7 @@
  static inline	int	_dl_block_semaphore	( void);
  static		pid_t	_dl_check_lock	( const char * lockname);
  static		char *	_dl_check_devname	( const char * devname);
@@ -543,16 +531,16 @@ diff -Nru lockdev-1.0.1.orig/src/lockdev.c lockdev-1.0.1/src/lockdev.c
  
  #define	SEMAPHORE	"LOCKDEV"
  #define	close_n_return( v)	return( _dl_unlock_semaphore( v))
-@@ -400,7 +400,7 @@
+@@ -392,7 +392,7 @@
  	/* checks content's format */
  	if ( j == 1 ) {
  		/* checks process existence */
--		if ( kill( pid_read, 0) == 0 ) {
-+		if ( _dl_pid_exists( pid_read)) {
+-		if ( ( kill( pid_read, 0) == 0 ) || (errno == EPERM) ) {
++		if ( _dl_pid_exists( pid_read) ) {
  			_debug( 2, "_dl_check_lock() locked by %d\n", (int)pid_read);
  			return pid_read;
  		}
-@@ -449,7 +449,7 @@
+@@ -441,7 +441,7 @@
  			return -1;
  		}
  		fscanf( fd, "%d", &pid2);
@@ -561,8 +549,8 @@ diff -Nru lockdev-1.0.1.orig/src/lockdev.c lockdev-1.0.1/src/lockdev.c
  			/* lock file was changed! let us quickly
  			 * put it back again
  			 */
-@@ -501,6 +501,18 @@
- 	return strcpy(m, p);
+@@ -499,6 +499,18 @@
+ 	return strcpy( m, p);
  }
  
 +/* for internal use */
