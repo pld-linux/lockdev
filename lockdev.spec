@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
-Summary(pl):	Biblioteka do blokowania urz±dzeñ
+Summary(pl.UTF-8):   Biblioteka do blokowania urzÄ…dzeÅ„
 Name:		lockdev
 Version:	1.0.3
 Release:	1
@@ -16,13 +16,13 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Lockdev provides a reliable way to put an exclusive lock to devices
 using both FSSTND and SVr4 methods.
 
-%description -l pl
-lockdev udostêpnia wiarygodny sposób na zak³adanie wy³±cznej blokady
-na urz±dzenia przy u¿yciu metod zarówno FSSTND jak i SVr4.
+%description -l pl.UTF-8
+lockdev udostÄ™pnia wiarygodny sposÃ³b na zakÅ‚adanie wyÅ‚Ä…cznej blokady
+na urzÄ…dzenia przy uÅ¼yciu metod zarÃ³wno FSSTND jak i SVr4.
 
 %package devel
 Summary:	The header files for the lockdev library
-Summary(pl):	Pliki nag³ówkowe biblioteki lockdev
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki lockdev
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -31,50 +31,50 @@ The lockdev library provides a reliable way to put an exclusive lock
 on devices using both FSSTND and SVr4 methods. The lockdev-devel
 package contains the development headers.
 
-%description devel -l pl
-Biblioteka lockdev udostêpnia wiarygodny sposób na zak³adanie
-wy³±cznej blokady na urz±dzenia przy u¿yciu metod zarówno FSSTND jak i
-SVr4. Ten pakiet zawiera pliki nag³ówkowe.
+%description devel -l pl.UTF-8
+Biblioteka lockdev udostÄ™pnia wiarygodny sposÃ³b na zakÅ‚adanie
+wyÅ‚Ä…cznej blokady na urzÄ…dzenia przy uÅ¼yciu metod zarÃ³wno FSSTND jak i
+SVr4. Ten pakiet zawiera pliki nagÅ‚Ã³wkowe.
 
 %package static
 Summary:	Static lockdev library
-Summary(pl):	Biblioteka statyczna lockdev
+Summary(pl.UTF-8):   Biblioteka statyczna lockdev
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static lockdev library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Biblioteka statyczna lockdev.
 
 %package baudboy
 Summary:	lockdev utility
-Summary(pl):	Narzêdzie lockdev
+Summary(pl.UTF-8):   NarzÄ™dzie lockdev
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 
 %description baudboy
 This package contains sgid lockdev utility used by Baudboy API.
 
-%description baudboy -l pl
-Ten pakiet zawiera narzêdzie lockdev z ustawionym bitem sgid u¿ywane
+%description baudboy -l pl.UTF-8
+Ten pakiet zawiera narzÄ™dzie lockdev z ustawionym bitem sgid uÅ¼ywane
 przez API Baudboy.
 
 %package baudboy-devel
 Summary:	Baudboy interface to lockdev utility
-Summary(pl):	Interfejs Baudboy do narzêdzia lockdev
+Summary(pl.UTF-8):   Interfejs Baudboy do narzÄ™dzia lockdev
 Group:		Development/Libraries
 
 %description baudboy-devel
 Baudboy interface to lockdev utility.
 
-%description baudboy-devel -l pl
-Interfejs Baudboy do narzêdzia lockdev.
+%description baudboy-devel -l pl.UTF-8
+Interfejs Baudboy do narzÄ™dzia lockdev.
 
 %package -n perl-LockDev
 Summary:	LockDev - Perl extension to manage device lockfiles
-Summary(pl):	LockDev - rozszerzenie Perla do zarz±dzania plikami blokuj±cymi dla urz±dzeñ
+Summary(pl.UTF-8):   LockDev - rozszerzenie Perla do zarzÄ…dzania plikami blokujÄ…cymi dla urzÄ…dzeÅ„
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
 
@@ -91,18 +91,18 @@ The lock file names are typically in the form LCK..ttyS1 and
 LCK.004.065, and their content is the pid of the process who owns the
 lock.
 
-%description -n perl-LockDev -l pl
-Metody LockDev dzia³aj± na blokadach (plikach blokuj±cych) urz±dzeñ
-normalnie po³o¿onych w /var/lock. Blokada jest uzyskiwana poprzez
-utworzenie pary plików po³±czonych dowi±zaniem zwyk³ym i nazwanych od
-nazwy urz±dzenia (wg specyfikacji FSSTND) oraz liczby g³ównej i
-pobocznej (major i minor, jak w blokadach SVr4). Pozwala to rozwi±zaæ
-problem istniej±cy w przypadku u¿ywania wy³±cznie metody FSSTND, kiedy
-to samo urz±dzenie istnieje pod ró¿nymi nazwami (dla wygody lub kiedy
-musi byæ dostêpne dla wiêcej ni¿ jednej grupy u¿ytkowników).
+%description -n perl-LockDev -l pl.UTF-8
+Metody LockDev dziaÅ‚ajÄ… na blokadach (plikach blokujÄ…cych) urzÄ…dzeÅ„
+normalnie poÅ‚oÅ¼onych w /var/lock. Blokada jest uzyskiwana poprzez
+utworzenie pary plikÃ³w poÅ‚Ä…czonych dowiÄ…zaniem zwykÅ‚ym i nazwanych od
+nazwy urzÄ…dzenia (wg specyfikacji FSSTND) oraz liczby gÅ‚Ã³wnej i
+pobocznej (major i minor, jak w blokadach SVr4). Pozwala to rozwiÄ…zaÄ‡
+problem istniejÄ…cy w przypadku uÅ¼ywania wyÅ‚Ä…cznie metody FSSTND, kiedy
+to samo urzÄ…dzenie istnieje pod rÃ³Å¼nymi nazwami (dla wygody lub kiedy
+musi byÄ‡ dostÄ™pne dla wiÄ™cej niÅ¼ jednej grupy uÅ¼ytkownikÃ³w).
 
-Nazwy plików blokuj±cych s± zwykle w postaci LCK..ttyS1 i LCK.004.065,
-a ich zawarto¶æ to identyfikator (PID) procesu posiadaj±cego blokadê.
+Nazwy plikÃ³w blokujÄ…cych sÄ… zwykle w postaci LCK..ttyS1 i LCK.004.065,
+a ich zawartoÅ›Ä‡ to identyfikator (PID) procesu posiadajÄ…cego blokadÄ™.
 
 %prep
 %setup -q
