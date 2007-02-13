@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
-Summary(pl.UTF-8):   Biblioteka do blokowania urządzeń
+Summary(pl.UTF-8):	Biblioteka do blokowania urządzeń
 Name:		lockdev
 Version:	1.0.3
 Release:	1
@@ -22,7 +22,7 @@ na urządzenia przy użyciu metod zarówno FSSTND jak i SVr4.
 
 %package devel
 Summary:	The header files for the lockdev library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki lockdev
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki lockdev
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
@@ -38,7 +38,7 @@ SVr4. Ten pakiet zawiera pliki nagłówkowe.
 
 %package static
 Summary:	Static lockdev library
-Summary(pl.UTF-8):   Biblioteka statyczna lockdev
+Summary(pl.UTF-8):	Biblioteka statyczna lockdev
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -50,7 +50,7 @@ Biblioteka statyczna lockdev.
 
 %package baudboy
 Summary:	lockdev utility
-Summary(pl.UTF-8):   Narzędzie lockdev
+Summary(pl.UTF-8):	Narzędzie lockdev
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 
@@ -63,7 +63,7 @@ przez API Baudboy.
 
 %package baudboy-devel
 Summary:	Baudboy interface to lockdev utility
-Summary(pl.UTF-8):   Interfejs Baudboy do narzędzia lockdev
+Summary(pl.UTF-8):	Interfejs Baudboy do narzędzia lockdev
 Group:		Development/Libraries
 
 %description baudboy-devel
@@ -74,7 +74,7 @@ Interfejs Baudboy do narzędzia lockdev.
 
 %package -n perl-LockDev
 Summary:	LockDev - Perl extension to manage device lockfiles
-Summary(pl.UTF-8):   LockDev - rozszerzenie Perla do zarządzania plikami blokującymi dla urządzeń
+Summary(pl.UTF-8):	LockDev - rozszerzenie Perla do zarządzania plikami blokującymi dla urządzeń
 Group:		Development/Languages/Perl
 Requires:	%{name} = %{version}-%{release}
 
