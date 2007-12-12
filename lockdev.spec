@@ -114,7 +114,7 @@ a ich zawartość to identyfikator (PID) procesu posiadającego blokadę.
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -Wall"
 
-%{__make} shared lockdev \
+%{__make} -j1 shared lockdev \
 	CC="%{__cc}" \
 	CFLAGS="%{rpmcflags} -Wall -D_REENTRANT" \
 	LCFLAGS="%{rpmldflags}"
