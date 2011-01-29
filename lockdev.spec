@@ -10,6 +10,8 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig
 # Source0-md5:	64b9c1b87b125fc348e892e24625524a
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-baudboy.patch
+BuildRequires:	perl-ExtUtils-MakeMaker
+BuildRequires:	rpm-perlprov
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
