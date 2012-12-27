@@ -3,8 +3,8 @@ Summary:	A library for locking devices
 Summary(pl.UTF-8):	Biblioteka do blokowania urządzeń
 Name:		lockdev
 Version:	1.0.3
-Release:	6
-License:	LGPL
+Release:	7
+License:	LGPL v2.1
 Group:		Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	64b9c1b87b125fc348e892e24625524a
@@ -142,6 +142,19 @@ rm -rf $RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT%{perl_archlib}/perllocal.pod
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/LockDev/.packlist
 
+install -d $RPM_BUILD_ROOT%{_pkgconfigdir}
+cat >$RPM_BUILD_ROOT%{_pkgconfigdir}/lockdev.pc <<'EOF'
+prefix=%{_prefix}
+exec_prefix=%{_prefix}
+libdir=%{_libdir}
+includedir=%{_includedir}
+
+Name: lockdev
+Description: A library for locking devices
+Version: %{version}
+Libs: -L${libdir} -llockdev
+Cflags:
+EOF
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -159,6 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/lockdev.3*
 %{_includedir}/lockdev.h
 %{_includedir}/ttylock.h
+%{_pkgconfigdir}/lockdev.pc
 
 %files static
 %defattr(644,root,root,755)
