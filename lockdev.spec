@@ -193,6 +193,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{perl_vendorarch}/LockDev.pm
 %dir %{perl_vendorarch}/auto/LockDev
-%{perl_vendorarch}/auto/LockDev/LockDev.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/LockDev/LockDev.so
 %{_mandir}/man3/LockDev.3*
