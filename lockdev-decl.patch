@@ -1,0 +1,17 @@
+--- lockdev-1.0.3/src/ttylock.h~	2005-10-03 19:44:33.000000000 +0200
++++ lockdev-1.0.3/src/ttylock.h	2015-12-09 09:15:16.472462344 +0100
+@@ -36,10 +36,10 @@ extern "C" {
+ 
+ /* API of the library */
+ 
+-int ttylock (char * devname);
+-int ttywait (char * devname);
+-int ttyunlock (char * devname);
+-int ttylocked (char * devname);
++static inline int ttylock (char * devname);
++static inline int ttywait (char * devname);
++static inline int ttyunlock (char * devname);
++static inline int ttylocked (char * devname);
+ 
+ 
+ static inline int

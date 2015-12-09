@@ -3,13 +3,14 @@ Summary:	A library for locking devices
 Summary(pl.UTF-8):	Biblioteka do blokowania urządzeń
 Name:		lockdev
 Version:	1.0.3
-Release:	11
+Release:	12
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	64b9c1b87b125fc348e892e24625524a
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-baudboy.patch
+Patch2:		%{name}-decl.patch
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	rpm-perlprov
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -110,15 +111,16 @@ a ich zawartość to identyfikator (PID) procesu posiadającego blokadę.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} static \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -Wall"
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -Wall"
 
 %{__make} shared lockdev \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -Wall -D_REENTRANT" \
+	CFLAGS="%{rpmcppflags} %{rpmcflags} -Wall -D_REENTRANT" \
 	LCFLAGS="%{rpmldflags}"
 
 cd LockDev
