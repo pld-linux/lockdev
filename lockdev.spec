@@ -6,7 +6,7 @@ Version:	1.0.3
 Release:	18
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	ftp://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
+Source0:	http://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
 # Source0-md5:	64b9c1b87b125fc348e892e24625524a
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-baudboy.patch
