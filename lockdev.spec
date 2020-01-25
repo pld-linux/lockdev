@@ -1,4 +1,3 @@
-%include	/usr/lib/rpm/macros.perl
 Summary:	A library for locking devices
 Summary(pl.UTF-8):	Biblioteka do blokowania urządzeń
 Name:		lockdev
