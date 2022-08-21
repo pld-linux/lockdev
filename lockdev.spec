@@ -2,7 +2,7 @@ Summary:	A library for locking devices
 Summary(pl.UTF-8):	Biblioteka do blokowania urządzeń
 Name:		lockdev
 Version:	1.0.3
-Release:	22
+Release:	23
 License:	LGPL v2.1
 Group:		Libraries
 Source0:	http://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.orig.tar.gz
