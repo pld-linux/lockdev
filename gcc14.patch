@@ -1,0 +1,10 @@
+--- lockdev-1.0.3/src/sample.c.orig	2024-06-10 19:36:50.938518051 +0200
++++ lockdev-1.0.3/src/sample.c	2024-06-10 19:38:37.325350180 +0200
+@@ -1,5 +1,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <sys/types.h>
++#include <unistd.h>
+ #include "lockdev.h"
+ 
+ void

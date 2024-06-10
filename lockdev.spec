@@ -10,6 +10,7 @@ Source0:	http://ftp.debian.org/debian/pool/main/l/lockdev/%{name}_%{version}.ori
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-baudboy.patch
 Patch2:		%{name}-decl.patch
+Patch3:		gcc14.patch
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	rpm-perlprov
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -111,6 +112,7 @@ a ich zawartość to identyfikator (PID) procesu posiadającego blokadę.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__make} static \
